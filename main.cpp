@@ -66,10 +66,40 @@ int count_palindrome_add(char seq[], int size) {
   return table[0][size-1];
 }
 
+int count_alternate_seq(int seq[], int size) {
+  int last_dif = 0, alternate_count=1;
+  for(int i=1; i< size; i++) {
+    if(seq[i] > seq[i-1] && last_dif == -1) {
+      alternate_count++;
+      last_dif = 1;
+    }
+    else if(seq[i] < seq[i-1] && last_dif == 1) {
+      alternate_count++;
+      last_dif = -1;
+    }
+    else if(last_dif == 0){
+      if(seq[i] < seq[i-1]) {
+        alternate_count++;
+        last_dif = -1;
+      }
+      else if(seq[i] > seq[i-1]) {
+        alternate_count++;
+        last_dif = 1;
+      }
+    }
+  }
+  return alternate_count;
+}
+
 int main() {
   char seq[] = "atyytamngerttreh";
+  int alternate_seq[] = {1,7,4,9,2,5};
+
   int no_of_insertions = count_palindrome_add(seq, strlen(seq));
   int no_of_cut = count_palindrome_cut(seq, strlen(seq));
+  int no_of_alternating_seq = count_alternate_seq(alternate_seq, sizeof(alternate_seq)/sizeof(int));
+
   cout<<"Min number of insertions = "<<no_of_insertions<<endl;
   cout<<"Min number of cuts = "<<no_of_cut<<endl;
+  cout<<"Count of alternating sequences = "<<no_of_alternating_seq<<endl;
 }
